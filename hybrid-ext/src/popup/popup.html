@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Remembrancer</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-container">
+    <header>
+      <span class="logo"><span class="logo-dot"></span> Remembrancer</span>
+      <span class="badge">Extension · MV3</span>
+    </header>
+
+    <section id="status-section">
+      <div class="status-row">
+        <span class="status-label">On-device engine</span>
+        <span class="status-value ok">ready — no quota</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Firebase AI Logic</span>
+        <span id="cloud-status" class="status-value">—</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Degradation policy</span>
+        <span id="degradation-indicator" class="status-value">graceful</span>
+      </div>
+    </section>
+
+    <section id="paste-section">
+      <label for="paste-input">Paste family conversation text</label>
+      <textarea id="paste-input" rows="4" placeholder="e.g. Grandma explains why the dough must rest for half an hour…"></textarea>
+    </section>
+
+    <section id="actions">
+      <button id="btn-local" class="action-btn local">
+        <span class="btn-title">⚙ On-Device Summary</span>
+        <span class="btn-sub">local extractive engine · always works offline</span>
+      </button>
+      <button id="btn-cloud" class="action-btn cloud">
+        <span class="btn-title">☁ Firebase AI Logic</span>
+        <span class="btn-sub">Gemini Developer API backend · PREFER_ON_DEVICE · fallback per policy</span>
+      </button>
+    </section>
+
+    <p id="processing-status" class="processing-status"></p>
+
+    <section id="result-section" style="display:none;">
+      <div class="result-head">
+        <strong id="result-path">—</strong>
+        <span id="result-degrade" class="badge warn" style="display:none;">degraded → local</span>
+      </div>
+      <div id="result-tags" class="result-tags"></div>
+      <p id="summary-output" class="summary-output"></p>
+      <p id="result-meta" class="result-meta"></p>
+    </section>
+
+    <footer>
+      <a href="#" id="open-options">⚙ Extension options</a>
+    </footer>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

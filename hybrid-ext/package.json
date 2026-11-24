@@ -1,0 +1,18 @@
+{
+  "name": "remembrancer-ext",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Remembrancer Chrome MV3 extension — Firebase AI Logic hybrid SDK channel (bundled) with a deterministic offline floor.",
+  "type": "module",
+  "scripts": {
+    "build:ai": "node tools/bundle-ai.mjs",
+    "icons": "node tools/make-icons.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "firebase": "13.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

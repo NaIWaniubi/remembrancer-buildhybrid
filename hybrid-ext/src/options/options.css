@@ -1,0 +1,192 @@
+/* Remembrancer options page - dark theme, no external resources */
+
+:root {
+  --bg: #0b1020;
+  --bg-panel: #141c3a;
+  --bg-input: #0d1430;
+  --border: #26325e;
+  --border-strong: #34427a;
+  --text: #e7ecff;
+  --text-muted: #9aa7d6;
+  --text-dim: #6b7aa8;
+  --accent: #818cf8;
+  --accent-strong: #6366f1;
+  --success: #34d399;
+  --warning: #fbbf24;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', sans-serif;
+}
+
+.options-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+h1 { font-size: 1.6rem; margin: 0; }
+.subtitle { color: var(--text-muted); font-size: 0.88rem; margin: -0.8rem 0 0; }
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+}
+.panel h2 { margin: 0 0 1rem; font-size: 1.05rem; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+.field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: var(--text-muted); }
+.field input {
+  background: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.85rem;
+}
+.field input:focus { outline: none; border-color: var(--accent-strong); }
+.field code { color: var(--accent); background: rgba(129,140,248,0.1); padding: 0.05rem 0.35rem; border-radius: 4px; }
+.appcheck-field { margin-top: 0.9rem; }
+.check-field { display: flex; align-items: center; gap: 0.55rem; margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted); }
+.check-field input { width: auto; }
+.config-error {
+  display: none;
+  margin-top: 0.8rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(251,191,36,0.5);
+  border-radius: 8px;
+  background: rgba(251,191,36,0.08);
+  color: var(--warning);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.probe-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem; }
+.action-btn {
+  padding: 0.55rem 1.2rem;
+  background: var(--accent-strong);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.action-btn:hover { background: var(--accent); }
+.ghost-btn {
+  padding: 0.55rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  border-radius: 10px;
+}
+.ghost-btn:hover { border-color: var(--warning); color: var(--warning); }
+
+.badge {
+  font-size: 0.74rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+}
+.badge.ok { color: var(--success); border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); }
+.badge.warn { color: var(--warning); border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.08); }
+.badge.offline { color: var(--text-dim); }
+
+.hint { font-size: 0.76rem; color: var(--text-dim); line-height: 1.6; margin: 0.9rem 0 0; }
+
+.status-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.status-table th {
+  text-align: left; color: var(--text-dim); font-weight: 600;
+  padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); font-size: 0.72rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.status-table td { padding: 0.75rem 0.6rem; border-bottom: 1px solid rgba(38,50,94,0.5); vertical-align: top; }
+.status-table tr:last-child td { border-bottom: none; }
+.status-table small { color: var(--text-dim); font-size: 0.68rem; display: block; margin-top: 0.15rem; }
+
+.state {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+}
+.state.ok { color: var(--success); background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.4); }
+.state.opt { color: var(--accent); background: rgba(129,140,248,0.12); border: 1px solid rgba(129,140,248,0.4); }
+.state.warn { color: var(--warning); background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.4); }
+.state.muted { color: var(--text-dim); background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.1rem;
+}
+.strategy-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem 0.9rem;
+}
+.strategy-card h3 { margin: 0 0 0.4rem; font-size: 0.86rem; color: var(--accent); }
+.strategy-card small { color: var(--text-dim); font-weight: 400; }
+.strategy-card p { margin: 0; font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
+.strategy-card:first-child { border-color: var(--accent-strong); box-shadow: 0 0 14px rgba(99,102,241,0.25); }
+
+.config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(38,50,94,0.5);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.config-row:last-of-type { border-bottom: none; }
+.config-row select {
+  background: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+.config-row input[type="checkbox"] { width: auto; }
+
+.warning-section {
+  border: 1px dashed rgba(251,191,36,0.4);
+  background: rgba(251,191,36,0.06);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.warning-section code { color: var(--accent); background: rgba(129,140,248,0.1); padding: 0.05rem 0.35rem; border-radius: 4px; }
+
+.save-btn {
+  align-self: flex-start;
+  padding: 0.65rem 1.6rem;
+  background: var(--accent-strong);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.save-btn:hover { background: var(--accent); }

@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Remembrancer — Hybrid Family Memory Engine",
+  "version": "0.3.0",
+  "description": "Privacy-first hybrid edge-cloud family memory engine. Firebase AI Logic (Gemini, PREFER_ON_DEVICE) is the cloud channel; a deterministic local engine always works as the offline floor.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://firebase.googleapis.com/*",
+    "https://*.firebaseapp.com/*",
+    "https://firebasevertexai.googleapis.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/lib/firebase-ai-logic.bundle.js", "src/lib/firebase-ai-logic.bundle.js.map"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "Remembrancer",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "src/options/options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

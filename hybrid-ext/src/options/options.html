@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Remembrancer - Options</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="options-container">
+    <h1>◉ Remembrancer Options</h1>
+    <p class="subtitle">Hybrid architecture - deterministic local engine always works; Firebase AI Logic is the cloud channel.</p>
+
+    <section class="panel">
+      <h2>Firebase Project (enables the Firebase AI Logic Gemini channel)</h2>
+      <div class="form-grid">
+        <label class="field">
+          <span>API key</span>
+          <input type="password" id="firebase-api-key" placeholder="YOUR_API_KEY" autocomplete="off" required />
+        </label>
+        <label class="field">
+          <span>Project ID</span>
+          <input type="text" id="firebase-project-id" placeholder="PROJECT_ID" required />
+        </label>
+        <label class="field">
+          <span>App ID</span>
+          <input type="text" id="firebase-app-id" placeholder="1:PROJECT_NUMBER:web:YOUR_APP_ID" required />
+        </label>
+      </div>
+
+      <label class="field appcheck-field">
+        <span>App Check token endpoint (production)</span>
+        <input type="url" id="firebase-appcheck-endpoint" placeholder="https://your-backend.example/app-check-token" />
+      </label>
+      <label class="check-field">
+        <input type="checkbox" id="appcheck-debug" />
+        <span>Use App Check debug token (local development only)</span>
+      </label>
+      <label class="field appcheck-field">
+        <span>App Check debug token (local only)</span>
+        <input type="password" id="firebase-appcheck-debug-token" placeholder="Registered debug token UUID" autocomplete="off" />
+      </label>
+      <p id="config-error" class="config-error" role="alert" style="display:none;"></p>
+
+      <div class="probe-row">
+        <button id="btn-save" class="action-btn">Save &amp; Activate AI Logic</button>
+        <button id="btn-reset-cloud" class="ghost-btn">Reset to guest / local-only</button>
+        <span id="probe-status" class="badge offline">not probed</span>
+      </div>
+      <p class="hint">
+        Save a real Firebase Web app to enable the Firebase AI Logic channel (Gemini Developer API
+        backend, hybrid mode PREFER_ON_DEVICE). API key, Project ID, and App ID are all required.
+        The local engine remains available through the explicit local action.
+      </p>
+      <p class="hint">
+        <strong>App Check:</strong> since Nov 2, 2026 App Check is enforced for AI Logic. Production
+        requires an HTTPS token endpoint that returns <code>{"token","expireTimeMillis"}</code>.
+        For local development only, enable debug mode and paste the registered debug token above.
+        Register tokens in Firebase Console &gt; App Check &gt; Apps &gt; Manage debug tokens.
+        Never commit debug tokens.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Channel Status</h2>
+      <table class="status-table">
+        <thead>
+          <tr><th>Channel</th><th>State</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>On-device transcription<br /><small>Web Speech API (web app) / typed-paste (ext)</small></td>
+            <td><span class="state ok">READY</span></td>
+            <td>No key, no quota, browser-native.</td>
+          </tr>
+          <tr>
+            <td>Local summary + sentiment<br /><small>extractive lexicon engine — the offline floor</small></td>
+            <td><span class="state ok">READY</span></td>
+            <td>Runs fully offline. Guaranteed fallback beneath every channel.</td>
+          </tr>
+          <tr id="row-cloud">
+            <td>Firebase AI Logic<br /><small>Gemini Developer API backend · mode prefer_on_device</small></td>
+            <td><span id="channel-cloud-state" class="state muted">CHECKING…</span></td>
+            <td id="channel-cloud-detail">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Degradation Strategy</h2>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <h3>graceful <small>(default)</small></h3>
+          <p>Try Firebase AI Logic when enabled; on any failure fall back to the local engine with a visible badge.</p>
+        </div>
+        <div class="strategy-card">
+          <h3>local_only</h3>
+          <p>Refuse cloud calls. An explicit cloud request returns a policy error; the local button still works.</p>
+        </div>
+        <div class="strategy-card">
+          <h3>offline</h3>
+          <p>Refuse cloud calls and report the policy error. Local summaries remain available.</p>
+        </div>
+        <div class="strategy-card">
+          <h3>fail-loudly <small>(none)</small></h3>
+          <p>Surface cloud and App Check errors. Never silently replace a failed cloud request with a local result.</p>
+        </div>
+      </div>
+
+      <div class="config-row">
+        <label>Active policy</label>
+        <select id="cfg-degradation">
+          <option value="fail-loudly">Fail loudly (none)</option>
+          <option value="local_only">Local only</option>
+          <option value="graceful" selected>Graceful</option>
+          <option value="offline">Offline mode</option>
+        </select>
+      </div>
+      <div class="config-row">
+        <label>AI Logic cloud summary enabled</label>
+        <input type="checkbox" id="cfg-cloud-enabled" checked />
+      </div>
+    </section>
+
+    <section class="warning-section">
+      <p>Settings persist in <code>chrome.storage.local</code> - the offline-first equivalent of Firebase Remote Config. No real credentials are shipped in this repository; placeholders only (<code>PROJECT_ID</code> / <code>YOUR_API_KEY</code>).</p>
+    </section>
+
+    <button id="btn-save-strategy" class="save-btn">Save Settings</button>
+    <span id="save-status" class="badge ok" style="display:none;">saved</span>
+  </div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
